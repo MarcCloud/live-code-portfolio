@@ -1,0 +1,13 @@
+node_modules
+.idea
+public
+build
+coverage
+*.log
+logs
+tmp
+temp
+dist
+conf.js
+.DS_Store
+**/.DS_Store
