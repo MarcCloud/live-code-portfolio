@@ -4,6 +4,7 @@ import session from 'express-session';
 import methodOverride from 'method-override';
 import passport from './passport';
 import { resolve } from 'path';
+import authentication from './authentication.js';
 const app = express();
 const env = process.env.NODE_ENV || 'development';
 
@@ -31,6 +32,8 @@ export default function (){
     app.use(passport.session());
     app.use(express.static(resolve('./dist')));
 
+    app.use('/auth', authentication);
+
     app.get('/', (req, res)=>{
         res.sendFile(resolve('./app/index.html'));
     });
@@ -38,12 +41,6 @@ export default function (){
     app.get('/api', (req, res)=>{
         res.json({ message: 'Hello from the API'});
     });
-
-    app.get('/auth/github', passport.authenticate('github', { scope: ['user:email']}));
-
-    app.get('/auth/github/callback',
-        passport.authenticate('github', { failureRedirect: '/'}),
-        (req, res)=>{ res.redirect('/portfolio');});
 
     app.get('/logout', (req, res)=>{
         req.logout();
