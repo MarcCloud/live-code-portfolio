@@ -8,6 +8,7 @@ const app = express();
 const env = process.env.NODE_ENV || 'development';
 
 export default function (){
+
     if (env === 'development'){
         const webpack = require('webpack');
         const config = require('../webpack.config.babel.js');
@@ -42,7 +43,7 @@ export default function (){
 
     app.get('/auth/github/callback',
         passport.authenticate('github', { failureRedirect: '/'}),
-        (req, res)=>{ console.log(req.body); res.redirect('/portfolio');});
+        (req, res)=>{ res.redirect('/portfolio');});
 
     app.get('/logout', (req, res)=>{
         req.logout();
