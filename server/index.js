@@ -2,9 +2,12 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import session from 'express-session';
 import methodOverride from 'method-override';
+import mongoose from 'mongoose';
 import passport from './passport';
 import { resolve } from 'path';
 import authentication from './authentication.js';
+import {MONGO} from '../conf';
+
 const app = express();
 const env = process.env.NODE_ENV || 'development';
 
@@ -24,6 +27,11 @@ export default function (){
             log: console.log, path: '/__webpack_hmr', heartbeat: 10 * 1000
         }));
     }
+
+    mongoose.connect(MONGO.DB, { user: MONGO.USER, pass: MONGO.PWD});
+    mongoose.connection
+        .on('error', (err)=> { console.error(`Could not connect to database due: ${err}`);})
+        .once('open', ()=> console.log('Success!!'));
 
     app.use(bodyParser());
     app.use(methodOverride());
@@ -45,6 +53,11 @@ export default function (){
     app.get('/logout', (req, res)=>{
         req.logout();
         res.redirect('/');
+    });
+
+    app.get('/deck', (req, res)=>{
+        console.log(req.isAuthenticated());
+        res.send(req.user);
     });
 
     const server = app.listen(process.env.PORT || 3000, ()=>{

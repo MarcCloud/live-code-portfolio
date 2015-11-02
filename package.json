@@ -22,6 +22,7 @@
     "isomorphine": "^0.6.7",
     "kefir": "^3.1.0",
     "method-override": "^2.3.5",
+    "mongoose": "^4.2.3",
     "passport": "^0.3.0",
     "passport-github2": "^0.1.9",
     "react": "^0.14.0",
