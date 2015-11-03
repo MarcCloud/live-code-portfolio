@@ -56,7 +56,6 @@ export default function (){
     });
 
     app.get('/deck', (req, res)=>{
-        console.log(req.isAuthenticated());
         res.send(req.user);
     });
 
