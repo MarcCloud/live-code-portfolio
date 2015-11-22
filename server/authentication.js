@@ -8,6 +8,6 @@ router
 
 router
     .route('/github/callback')
-    .get(passport.authenticate('github', { failureRedirect: '/'}), (req, res)=>{ res.redirect('/deck');});
+    .get(passport.authenticate('github', { failureRedirect: '/'}), (req, res)=>{ res.redirect(`/${req.user._id}`);});
 
 export default router;

@@ -7,6 +7,8 @@ import passport from './passport';
 import { resolve } from 'path';
 import authentication from './authentication.js';
 import {MONGO} from '../conf';
+import {router as routeModels} from './api';
+import routes from '../app/routes/router';
 
 const app = express();
 const env = process.env.NODE_ENV || 'development';
@@ -38,16 +40,15 @@ export default function (){
     app.use(session({ secret: 'kowabonga' }));
     app.use(passport.initialize());
     app.use(passport.session());
-    app.use(express.static(resolve('./dist')));
 
+    app.set('views', resolve(__dirname + '/views'));
+    app.set('view engine', 'jade');
+    app.use(express.static(resolve('./dist')));
+    app.use(routeModels);
     app.use('/auth', authentication);
 
     app.get('/', (req, res)=>{
-        res.sendFile(resolve('./app/index.html'));
-    });
-
-    app.get('/api', (req, res)=>{
-        res.json({ message: 'Hello from the API'});
+        res.render('signin');
     });
 
     app.get('/logout', (req, res)=>{
@@ -55,8 +56,8 @@ export default function (){
         res.redirect('/');
     });
 
-    app.get('/deck', (req, res)=>{
-        res.send(req.user);
+    app.get('/:user', (req, res)=>{
+        res.send(routes.routeRequest(req));
     });
 
     const server = app.listen(process.env.PORT || 3000, ()=>{
