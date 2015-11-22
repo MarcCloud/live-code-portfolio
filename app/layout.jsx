@@ -1,5 +1,10 @@
-export default React => (props)=>{
-    return <section>
-                <header><h1>{ props.message + '!!' }</h1></header>
-            </section>;
-};
+import React from 'react';
+
+export default React.createClass({
+    render (){
+        return <section>
+                    <h1>Deckxpert</h1>
+                    {this.props.children}
+               </section>;
+    }
+});

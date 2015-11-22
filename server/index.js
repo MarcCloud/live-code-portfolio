@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 import methodOverride from 'method-override';
 import mongoose from 'mongoose';
+import {renderToString as render } from 'react-dom/server'
 import passport from './passport';
 import { resolve } from 'path';
 import authentication from './authentication.js';
@@ -57,7 +58,9 @@ export default function (){
     });
 
     app.get('/:user', (req, res)=>{
-        res.send(routes.routeRequest(req));
+        routes.routeRequest(req)[0].then(component=>{
+            res.render('app', {APP: render(component), STATE: JSON.stringify({})});
+        });
     });
 
     const server = app.listen(process.env.PORT || 3000, ()=>{

@@ -1,8 +1,10 @@
-import React from 'react';
 import { render } from 'react-dom';
-import app from './layout';
+import routes from './routes/router';
 
-const startApp = app(React);
 
-render(startApp({ message: 'Live Portfolio' }), document.getElementById('app'));
+routes.routeWindow(window)[0].then(component=>{
+    render(component, document.getElementById('root'));
+});
+
+
 

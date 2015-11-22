@@ -20,7 +20,9 @@ export default {
         new webpack.DefinePlugin({
             'process.env': {
                 ISOMORPHINE_HOST: '"http:0.0.0.0"',
-                ISOMORPHINE_PORT: 3000
+                ISOMORPHINE_PORT: 3000,
+                NODE_ENV: JSON.stringify('development'),
+                BABEL_ENV: JSON.stringify('development/client')
             }
         })
     ],
