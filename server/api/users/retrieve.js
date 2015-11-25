@@ -1,9 +1,14 @@
 import User from './model';
 
-const retrieve = (id)=>{
-    return User.findOne({_id: id})
-        .then((profile)=> profile)
-        .catch(console.error.bind(console, 'There was an error retrieving the profile requested: '));
+const retrieve = (id, cb)=>{
+    User.findOne({_id: id})
+        .then(profile=>{
+            cb(null, profile);
+        })
+        .catch(error=>{
+            console.error('Error retrieving user: %s', JSON.stringify(error));
+            cb(error);
+        });
 };
 
 export default retrieve;

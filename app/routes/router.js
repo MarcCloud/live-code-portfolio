@@ -2,6 +2,6 @@ import Router from 'isomorphic-router';
 import profileView from './profile';
 const router = new Router();
 
-router.on('/:user', profileView);
+router.on('/app/:user', profileView);
 
 export default router;

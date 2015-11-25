@@ -8,7 +8,7 @@ import passport from './passport';
 import { resolve } from 'path';
 import authentication from './authentication.js';
 import {MONGO} from '../conf';
-import {router as routeModels} from './api';
+import { router as routeModels} from './api';
 import routes from '../app/routes/router';
 
 const app = express();
@@ -41,11 +41,11 @@ export default function (){
     app.use(session({ secret: 'kowabonga' }));
     app.use(passport.initialize());
     app.use(passport.session());
-
+    app.use(routeModels);
     app.set('views', resolve(__dirname + '/views'));
     app.set('view engine', 'jade');
     app.use(express.static(resolve('./dist')));
-    app.use(routeModels);
+
     app.use('/auth', authentication);
 
     app.get('/', (req, res)=>{
@@ -57,7 +57,7 @@ export default function (){
         res.redirect('/');
     });
 
-    app.get('/:user', (req, res)=>{
+    app.get('/app/:user', (req, res)=>{
         routes.routeRequest(req)[0].then(component=>{
             res.render('app', {APP: render(component), STATE: JSON.stringify({})});
         });

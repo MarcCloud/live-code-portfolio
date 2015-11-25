@@ -19,13 +19,16 @@ passport.use(new GitHubStrategy({
         callbackURL: 'http://0.0.0.0:3000/auth/github/callback'
     },
     (accessToken, _, user, done) =>{
-        users.retrieve(user.id).then((doc)=>{
+        users.retrieve(user.id, (error, doc)=>{
+            console.log(doc);
             if (!doc){
                 users.create(R.merge(user._json, {_id: user.id, token: accessToken, email: user.emails[0].value}))
-                    .then(done);
+                    .then(usr=>{
+                        done(null, usr);
+                    }, er=>console.log(er));
             }
             return done(null, doc);
-        }).catch(done);
+        });
     }
 ));
 

@@ -2,8 +2,7 @@ doctype
 html
     title
     body
-        main.container#root
-            #{APP}
+        main.container#root !{APP}
         script.
             window.__STATE__= !{STATE}
         script(type="text/javascript", src="/bundle.js")
